@@ -21,27 +21,32 @@ public class MethodImpl implements MethodSource {
 		params = new LinkedHashMap<>();
 	}
 
+	@Override
 	public MethodSource setName(String name) {
 		this.name = name;
 		return this;
 	}
 
+	@Override
 	public String getName() {
 		return name;
 	}
 
-	public MethodImpl setType(String type) {
+	@Override
+	public MethodImpl setReturnType(String type) {
 		this.type = type;
 		return this;
 	}
 
-	public String getType() {
+	@Override
+	public String getReturnType() {
 		return type;
 	}
 
 	@Override
-	public void setBody(String body) {
+	public MethodImpl setBody(String body) {
 		this.body = body;
+		return this;
 	}
 
 	@Override
