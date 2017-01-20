@@ -54,7 +54,8 @@ public class MethodImpl implements MethodSource {
 		return body;
 	}
 
-	public void addParam(String name, String type) {
+	@Override
+	public void addParameter(String type, String name) {
 		params.put(name, type);
 	}
 

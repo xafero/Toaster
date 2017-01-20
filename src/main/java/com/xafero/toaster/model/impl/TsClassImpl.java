@@ -4,28 +4,40 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.StringJoiner;
 
+import com.xafero.toaster.model.source.AnnotationSource;
+import com.xafero.toaster.model.source.AnnotationTargetSource;
 import com.xafero.toaster.model.source.MemberSource;
 import com.xafero.toaster.model.source.MethodSource;
 import com.xafero.toaster.model.source.TsClassSource;
 import com.xafero.toaster.model.source.TsSource;
 
-public class TsClassImpl implements TsClassSource {
+public class TsClassImpl implements TsClassSource, AnnotationTargetSource {
 
 	private String pkg;
-	private String name;
-	private String kind;
+	protected String name;
+	protected String kind;
 	private List<MemberSource<?>> members;
+	private List<AnnotationSource> annots;
 
 	public TsClassImpl() {
 		pkg = "SomePackage";
 		name = "SomeClass";
 		kind = "class";
 		members = new LinkedList<>();
+		annots = new LinkedList<>();
 	}
 
+	@Override
 	public MethodSource addMethod() {
 		MethodImpl inst;
 		members.add(inst = new MethodImpl());
+		return inst;
+	}
+
+	@Override
+	public AnnotationSource addAnnotation(String className) {
+		AnnotImpl inst;
+		annots.add(inst = new AnnotImpl(className));
 		return inst;
 	}
 
@@ -63,6 +75,13 @@ public class TsClassImpl implements TsClassSource {
 	}
 
 	protected void writeBody(StringJoiner join) {
+		if (!annots.isEmpty()) {
+			join.add("static annotations: { [name: string]: string; } = { ");
+			StringJoiner anno = new StringJoiner(String.format(",%n "));
+			for (AnnotationSource annots : annots)
+				anno.add(String.format("'%s':'%s'", annots.getName(), annots.getStringValue()));
+			join.add(anno + " }; ");
+		}
 		for (MemberSource<?> member : members)
 			join.add("  " + member);
 	}

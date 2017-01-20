@@ -10,4 +10,6 @@ public interface MethodSource extends MemberSource<MethodSource> {
 
 	String getReturnType();
 
+	void addParameter(String type, String name);
+
 }
