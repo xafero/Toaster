@@ -9,6 +9,7 @@ import com.xafero.toaster.model.source.AnnotationTargetSource;
 import com.xafero.toaster.model.source.FieldSource;
 import com.xafero.toaster.model.source.MemberSource;
 import com.xafero.toaster.model.source.MethodSource;
+import com.xafero.toaster.model.source.PropertySource;
 import com.xafero.toaster.model.source.TsClassSource;
 import com.xafero.toaster.model.source.TsSource;
 
@@ -26,6 +27,13 @@ public class TsClassImpl implements TsClassSource, AnnotationTargetSource {
 		kind = "class";
 		members = new LinkedList<>();
 		annots = new LinkedList<>();
+	}
+
+	@Override
+	public PropertySource addProperty(String type, String name) {
+		PropertyImpl inst;
+		members.add(inst = new PropertyImpl(type, name));
+		return inst;
 	}
 
 	@Override
