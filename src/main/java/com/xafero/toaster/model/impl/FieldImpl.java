@@ -31,6 +31,11 @@ public class FieldImpl implements FieldSource {
 	}
 
 	@Override
+	public String getType() {
+		return type;
+	}
+
+	@Override
 	public FieldSource setLiteralInitializer(String body) {
 		this.body = body;
 		return this;
