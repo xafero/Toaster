@@ -8,6 +8,7 @@ import com.xafero.toaster.model.source.PropertySource;
 
 public class PropertyImpl implements PropertySource {
 
+	private String space;
 	private String type;
 	private String name;
 	private FieldSource field;
@@ -15,12 +16,13 @@ public class PropertyImpl implements PropertySource {
 	private MethodSource mutator;
 
 	public PropertyImpl(String type, String name) {
+		this.space = "";
 		this.type = type;
 		this.name = name;
 		String fName = toField(name);
 		field = (new FieldImpl()).setName(fName).setType(type);
 		accessor = createAccessor();
-		mutator = (new MethodImpl()).setName("set " + name).setReturnType(null).setBody("this." + fName + " = value;");
+		mutator = createMutator();
 		mutator.addParameter(type, "value");
 	}
 
@@ -51,8 +53,17 @@ public class PropertyImpl implements PropertySource {
 	@Override
 	public MethodSource createAccessor() {
 		String fName = toField(name);
-		accessor = (new MethodImpl()).setName("get " + name).setReturnType(type).setBody("return this." + fName + ";");
+		accessor = (new MethodImpl()).setName("get" + space + name).setReturnType(type)
+				.setBody("return this." + fName + ";");
 		return accessor;
+	}
+
+	public MethodSource createMutator() {
+		String fName = toField(name);
+		String mtype = space.equals(" ") ? null : "void";
+		mutator = (new MethodImpl()).setName("set" + space + name).setReturnType(mtype)
+				.setBody("this." + fName + " = value;");
+		return mutator;
 	}
 
 	@Override
