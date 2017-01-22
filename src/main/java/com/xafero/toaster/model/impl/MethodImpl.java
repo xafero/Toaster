@@ -65,6 +65,7 @@ public class MethodImpl implements MethodSource {
 		for (Entry<String, String> e : params.entrySet())
 			bld.add(String.format("%s : %s", e.getKey(), e.getValue()));
 		String bodyTxt = body == null ? ";" : String.format(" { %n   %s %n  }", body);
-		return String.format("%s(%s) : %s%s", name, bld, type, bodyTxt);
+		String typeTxt = type == null ? "" : String.format(": %s", type);
+		return String.format("%s(%s) %s%s", name, bld, typeTxt, bodyTxt);
 	}
 }
