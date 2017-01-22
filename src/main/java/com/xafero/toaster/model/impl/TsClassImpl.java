@@ -6,6 +6,7 @@ import java.util.StringJoiner;
 
 import com.xafero.toaster.model.source.AnnotationSource;
 import com.xafero.toaster.model.source.AnnotationTargetSource;
+import com.xafero.toaster.model.source.FieldSource;
 import com.xafero.toaster.model.source.MemberSource;
 import com.xafero.toaster.model.source.MethodSource;
 import com.xafero.toaster.model.source.TsClassSource;
@@ -31,6 +32,13 @@ public class TsClassImpl implements TsClassSource, AnnotationTargetSource {
 	public MethodSource addMethod() {
 		MethodImpl inst;
 		members.add(inst = new MethodImpl());
+		return inst;
+	}
+
+	@Override
+	public FieldSource addField() {
+		FieldImpl inst;
+		members.add(inst = new FieldImpl());
 		return inst;
 	}
 
